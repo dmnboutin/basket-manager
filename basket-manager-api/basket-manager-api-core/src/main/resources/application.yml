@@ -1,0 +1,8 @@
+info:
+  app:
+    name: Basket Manager API
+    version: ${project.version}
+
+spring:
+  main:
+    allow-bean-definition-overriding: true

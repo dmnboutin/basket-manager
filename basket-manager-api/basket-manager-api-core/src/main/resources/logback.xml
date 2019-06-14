@@ -1,0 +1,43 @@
+
+<configuration debug="false" scan="true" scanPeriod="30 seconds">
+
+    <!-- Propriétés -->
+    <property name="application.logs.max-history" value="7"/>
+    <property name="application.logs.level" value="INFO"/>
+    <property name="application.logs.framework-level" value="WARN"/>
+    <property name="application.name" value="basketmanager" scope="system"/>
+    <property name="application.logs.dir" value="logs" scope="system"/>
+
+    <!-- Console appender -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}|%-5p|%-25t|%-45logger{0}|%-36X{correlation_id}|%m%n%throwable</pattern>
+        </encoder>
+    </appender>
+
+    <!-- File appender -->
+    <appender name="APPLICATION" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${application.logs.dir}/${application.name}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${application.logs.dir}/${application.name}.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+            <maxHistory>${application.logs.max-history}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}|%-5p|%-25t|%-45logger{0}|%-36X{correlation_id}|%m%n%throwable</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Application loggers -->
+    <logger name="fr.damaketo.basketmanager.api" level="${application.logs.level}"/>
+
+
+    <!-- Frameworks loggers framework -->
+    <logger name="org.springframework" level="${application.logs.framework-level}"/>
+    <logger name="org.mongodb" level="INFO"/>
+
+    <root level="DEBUG">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="APPLICATION"/>
+    </root>
+
+</configuration>
